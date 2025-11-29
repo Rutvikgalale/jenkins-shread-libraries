@@ -9,3 +9,4 @@ def call(String image_name,String image_tag, String DockerHubUserparam){
     docker push $DockerHubUser/${image_name}:${image_tag}
     """
   }
+}
