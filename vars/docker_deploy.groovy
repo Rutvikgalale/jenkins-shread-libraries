@@ -1,6 +1,6 @@
-def call(String image_name, String image_tag, port){
+def call(String image_name, String image_tag, String port){
   echo "This is Deploying code"
-  sh '''
+  sh """
   # Stop old container by name if exists
   #docker stop notes-app || true
   #docker rm notes-app || true
@@ -11,6 +11,6 @@ def call(String image_name, String image_tag, port){
   docker stop $old || true
   docker rm $old || true
   fi
-  /usr/bin/docker run -dit -p port:port ${image_name}:${image_tag}
-  '''
+  /usr/bin/docker run -dit -p ${port}:${port} ${image_name}:${image_tag}
+  """
 }
