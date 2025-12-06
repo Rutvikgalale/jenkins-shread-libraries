@@ -1,12 +1,13 @@
-def call(String image_name,String image_tag, String DockerHubUserparam){
-  echo "pushing image to docker Hub"
-  withCredentials([usernamePassword(credentialsId: "dockerhub", passwordVariable: "DockerHubPass", usernameVariable: "DockerHubUser")]) {
-    sh """
-    echo "USER=$DockerHubUser"
-    echo "PASS length=\${#DockerHubPass}"
-    docker login -u $DockerHubUser -p $DockerHubPass
-    docker tag ${image_name}:${image_tag} $DockerHubUser/${image_name}:${image_tag}
-    docker push $DockerHubUser/${image_name}:${image_tag}
-    """
-  }
+def call(String image_name, String image_tag, String DockerHubUserparam) {
+    echo "pushing image to Docker Hub"
+    withCredentials([usernamePassword(credentialsId: "dockerhub",
+                                      usernameVariable: "DockerHubUser",
+                                      passwordVariable: "DockerHubPass")]) {
+        sh """
+        echo "USER=$DockerHubUser"
+        echo "PASS length=\${#DockerHubPass}"
+        echo $DockerHubPass | docker login -u $DockerHubUser --password-stdin
+        docker push $DockerHubUser/${image_name}:${image_tag}
+        """
+    }
 }
